@@ -7,14 +7,13 @@ version = "0.0.1"
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Swagger = "2d69052b-6a58-5cd9-a030-a48559c324ac"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+StructTypes = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
 
 [compat]
 HTTP = "0.8"
-Swagger = "0.2"
-JSON = "0.21"
+StructTypes = "1"
+JSON3 = "1"
 julia = "1"
 
 [extras]
