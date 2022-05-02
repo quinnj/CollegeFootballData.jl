@@ -2,28 +2,6 @@ module API
 
 using StructTypes, JSON3, HTTP
 
-makeobj(::Type{<:Union{Real, String}}, obj) = obj
-makeobj(::Type{Any}, obj) = obj
-makeobj(::Type{T}, obj) where {T <: NamedTuple} = NamedTuple(Tuple(k => makeobj(fieldtype(T, k), v) for (k, v) in obj))
-
-function makeobj(::Type{T}, obj) where {T <: AbstractVector}
-    x = similar(T, 0)
-    for y in obj
-        push!(x, makeobj(eltype(T), y))
-    end
-    return x
-end
-
-function makeobj(::Type{T}, obj) where {T}
-    x = T()
-    for (k, v) in obj
-        if hasfield(T, k)
-            setfield!(x, k, makeobj(fieldtype(T, k), v))
-        end
-    end
-    return x
-end
-
 function apicall(method, path, ::Type{Vector{RT}}; verbose::Int=0, kw...) where {RT}
     query = Dict{Symbol, Any}()
     for (k, v) in pairs(kw)
@@ -38,12 +16,12 @@ function apicall(method, path, ::Type{Vector{RT}}; verbose::Int=0, kw...) where 
     if obj isa AbstractVector
         vals = RT[]
         for val in obj
-            x = makeobj(RT, val)
+            x = StructTypes.constructfrom(RT, val)
             push!(vals, x)
         end
         return vals
     else
-        return makeobj(RT, obj)
+        return StructTypes.constructfrom(RT, obj)
     end
 end
 
